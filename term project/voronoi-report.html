@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voronoi Diagram 專案報告</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .navbar {
+            background-color: gray;
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+        .navbar button {
+            margin: 0 10px;
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        .image-class {
+            width: 70%;
+            height: 70%;
+        }
+        .example{
+            
+            img {
+                display: block;
+                margin: 0 auto;
+            }
+            p {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div style="background-color: #333;display: flex; justify-content: center; padding: 10px;">
+        <h1 style="font-weight: bold; font-style: italic; font-size: 40px; color: white;">Voronoi Diagram Implement</h1>
+    </div>
+    <div class="navbar">
+        <button onclick="showPage('info')">基本資訊</button>
+        <button onclick="showPage('specification')">軟體規格書</button>
+        <button onclick="showPage('description')">軟體說明</button>
+        <button onclick="showPage('design')">程式設計</button>
+        <button onclick="showPage('testing')">軟體測試</button>
+        <button onclick="showPage('conclusion')">結論與心得</button>
+        <button onclick="showPage('appendix')">附錄</button>
+    </div>
+
+    <div id="info" class="content page active">
+        <h1>Voronoi Diagram 專案報告</h1>
+        <h2>基本資訊</h2>
+        <p>題目：Voronoi Diagram 實作</p>
+        <p>系級：資工碩一</p>
+        <p>姓名：李旭智</p>
+        <p>學號：M133040059</p>
+    </div>
+
+    <div id="specification" class="content page">
+        <h2>軟體規格書</h2>
+        <h3>輸入資料規格：</h3>
+        <!-- 在這裡添加輸入輸出規格 -->
+         <h4>1.文字檔：</h4>
+         <p>利用load points from file按鈕輸入.txt檔。<br>文字檔內，一筆測資的第一行為一個正整數n，代表n個點，接下來n行為 x y，代表點座標為（x,y），全部測資輸入完後輸入0表示輸入結束。</p>
+         <p>如：</p>
+         <p>3<br>50 50<br>100 100<br> 200 200<br>0</p>
+         <h4>2.滑鼠直接點擊畫布：</h4>
+         <p>點擊完所有想輸入的點後按下Next testcase按鈕即完成輸入。</p>
+         <h3>輸出資料規格：</h3>
+         <p>畫完voronoi圖後，按下output file按鈕會輸出一個output.txt檔，每行代表一個點或邊，圖上的每個點會以（Ｐ 點座標）表示，每個邊會以（Ｅ 起點座標 終點座標）表示。</p>
+         <p>如：</p>
+         <p>P 50 50 <br>
+            P 100 100 <br>
+            P 200 200 <br>
+            E 0 150 150 0 <br>
+            E 0 300 300 0 <br>
+            </p>
+
+    </div>
+
+    <div id="description" class="content page">
+        <h2>軟體說明</h2>
+        <!-- 添加軟體安裝與使用說明 -->
+        <img src="images/軟體圖.png"class="image-class" alt="軟體圖">
+        <p>開啟執行檔後會出現上圖的軟體，有兩種輸入測資方式。
+        </p>
+        <p> 一種是點選load points from file(7.)按鈕，另一種是直接在畫布上選點，
+            完成測資輸入後點選Next testcase(1.)載入測資。</p> 
+        <p>有兩種執行方式，run(2.)按鈕會直接將voronoi diagram畫完，
+            step by step(3.)按鈕依divide and conquer步驟執行。</p>
+        <p>執行完成後，可以點選clear按鈕清空畫布(4.)，再接著在畫布上用滑鼠輸入點。</p>
+        <img src="images/執行完成圖.png" class="image-class" alt="執行完成圖">
+        <p>
+            可以用output file(5.)按鈕來輸出此圖的文字檔。<br>
+            display file(6.)按鈕可以畫出output file格式的圖。
+        </p>
+        <hr>
+        <h2>範例：</h2>
+        <div class="example" >
+            
+
+            <h3>Next testcase(1.):</h3>
+            <img src="images/Next testcase.png" class="image-class" alt="next testcase">
+            <p>按下next testcase載入並顯示點</p>
+            <hr>
+            <h3>Run(2.):</h3>
+            <img src="images/執行完成圖.png" class="image-class" alt="run finish">
+            <p>按Run直接執行完成，綠色圖代表完成merge</p>
+            <hr>
+            <h3>Step by step(3.):</h3>
+            <img src="images/step1.png" class="image-class" alt="顯示左右圖">
+            <p>紅藍色代表左右voroboi diagram,準備merge</p>
+            <img src="images/step2.png" class="image-class" alt="左右圖convex hull">
+            <p>粉/淺藍色代表紅/藍色圖的convex hull</p>
+            <img src="images/step3.png" class="image-class" alt="merged圖 convexhull">
+            <p>橘色代表兩圖合併的convexhull</p>
+            <img src="images/step4.png" class="image-class" alt="hyper plane">
+            <p>紫色代表hyper plane lines</p>
+            <img src="images/step5.png" class="image-class" alt="delete line">
+            <p>黑色代表已刪除完無用的線</p>
+            <img src="images/step6.png" class="image-class" alt="finish">
+            <p>綠色代表完成merge</p>
+            <hr>
+            <h3>Clear(4.):</h3>
+            <img src="images/clear.png" class="image-class" alt="clear">
+            <p>按Clear按鈕清除畫布</p>
+            <hr>
+            <h3>Output File(5.):</h3>
+            <img src="images/output.png" class="image-class" alt="output file">
+            <p>按output file按鈕輸出文字檔</p>
+
+        </div>
+        
+    </div>
+
+    <div id="design" class="content page">
+        <h2>程式設計</h2>
+        <!-- 描述演算法、資料結構和設計細節 -->
+         <p>本程式使用divide and conquer完成，可以將程式碼大致分為兩部分，
+            第一部分是怎麼畫出divide到3點以下的圖，第二部分為將兩個畫好的voronoi diagram合併，
+        以下先說明資料結構，再分兩部分說明voronoi diagram怎麼求。</p>
+        <h3>零、資料結構：</h3>
+        <p>我用的資料結構很簡單，因為每個圖都是用點和邊所構成的，
+            所以我創建了一個Diagram Class，裡面包含三個list，分別為points、original_edges、canvas_edges，
+            計算時只會用到points和original_edges，canvas_edge是用來存最後輸出到output file的邊。
+        </p>
+        <p>Class Diagram: 
+            <p>points=[point_1,point_2,...] ,<br>其中 point=[x,y] (以下用到point前綴的都為此結構) </p>
+            <p>original_edges=[edge_1,edge_2,...] , <br>其中 edge=[point_start,point_end,point_parent1,point_parent2] 
+                <br>（point_parent1和point_parent2代表此邊為這兩點的中垂線）</p>
+            <p>canvas_edges=[[canvas_edge_1],[canvas_edge_2],...] ,<br>其中 canvas_edge=[point_start,point_end]</p>
+        </p>
+        <h3>一、3點以下voronoi diagram（包含3點）：</h3>
+        <p>分成三種情況：<br>1.一點直接回傳<br>2.共線：<br> (1)兩點共線：求兩點中垂線<br> (2)三點共線：求三點兩條中垂線
+        <br>3.三點非共線：算出三點外心，由外心當起點畫出射線</p>
+        <h3>二、Voronoi diagram合併:</h3>
+        <p>創建merged_diagram，points和original_edges皆為左子圖和右子圖的相加。
+        </p>
+        <h4>步驟一：求左右子圖的上下切線</h4>
+        <p>上下切線定義是左右子圖做出convexhull後，連接兩邊convexhull的切線，
+            這兩條線不能穿過兩邊的convexhull，即為上下切線。
+        </p>
+        <p>我求上下切線的方法是直接將左右子圖的點先合併
+            ，然後求出合併後的convexhull
+            ，再遍歷合併後的convexhull上的所有點，
+            檢查遍歷時現在的點和上一個點是不是分別在兩個子圖內，
+            如果是就代表現在的點和上一個點的連線為上下切線其中之一
+            ，因此遍歷完convexhull後可得兩條線，即為上下切線。
+        </p>
+        <h4>步驟二：求左右子圖合併的中間線（hyper plane線）</h4>
+        <p>第一條hyper line為上切線的中垂線，我們要求第一條碰到這條hyper line的線，稱為top line為上切線的中垂線，我們要求第一條碰到這條hyper
+            ，用順逆時鐘來判斷top line要切掉哪一邊。因為top line和hyper line一定有一個parent point相同
+            ，用不同的兩個parent point來求下一條hyper line，
+            依此循環直到hyper line的parent和下切線的起點和終點相等，即為最後一條hyperline。
+        </p>
+        <h4>步驟三：刪掉無用的線</h4>
+        <p>此時因為我們對與hyper line有交點的線切過，導致會留下一些無用的邊還未被刪除
+            ，可能是左子圖的邊出現在右邊或右子圖的邊出現在左邊，且都沒有與hyper line相交
+            ，這些邊需要被刪除。我遍歷所有邊一一對其高度的hyper line比較，若其為左/右圖的邊
+            ，且兩端點都在對應的hyper line右/左邊，則刪除此線。</p>
+        <h4>步驟四：合併左右子圖</h4>
+        <p>完成刪線後，將所有hyper line加入merged_diagram中的original_edges即完成合併。</p>
+    </div>
+    
+    <div id="testing" class="content page">
+        <h2>軟體測試與實驗結果</h2>
+        <h3>測試環境</h3>
+        <ul>
+            <li>作業系統：macOS:Sonoma</li>
+            <li>CPU：Apple M2</li>
+            <li>記憶體：16GB</li>
+            <li>編譯器：python 3.13</li>
+        </ul>
+        <hr>
+        <h3>實驗結果：</h3>
+        
+        <img src="images/999點.png" class="image-class" alt="999點">
+        <p>999點也能夠跑
+        </p>
+        <img src="images/正菱形.png" class="image-class" alt="菱形">
+        <p>正菱形會跑進無窮迴圈，但我目前懶得修。</p>
+    </div>
+
+    <div id="conclusion" class="content page">
+        <h2>結論與心得</h2>
+        <!-- 添加專案結論和個人心得 -->
+         <p>這次term project這次花了我非常多時間在做，過程中常常debug到很煩躁，但我還是堅持住完成了這次term project
+            ，也因為這樣我也獲得了很大的成就感，也讓我變得更自信了一點，我覺得這次作業非常有意義。<br>
+            我從過程中也學到了很多感覺是一輩子都會用到的經驗，像是怎麼獨立完成一個專案的能力、怎麼解決問題的能力、debug的能力、和耐心，有很多基本的事情是沒辦法從書上學的，
+            只能從經驗中獲取，我覺得經過這次作業後，我以後寫code的流程會有很大的進步，以下說明我學到什麼。</p>
+        <h3>1.先決定整個程式的架構，並用pseudo code寫出來: </h3>
+        <p>在真正開始動手寫之前，要先決定整個程式的架構，才不會發現方向不對導致前面做的全部白做，
+            完成整個架構後也會讓我比較有感覺目前的進度，比較不會做完這步不知道該做什麼。
+            而用pseudo code寫出來時會讓我思考這樣在實作過程中合不合理，input和output應該要是什麼，
+            當把需要的input和output決定好後，資料結構就可以有所依照，用好的資料結構對整個程式的幫助很大。</p>
+        <h3>2.盡量把一個完整的步驟用function來寫，把所有function先列出來：</h3>
+        <p>把完整的步驟用function來寫的好處是程式碼更易讀且更好debug，如果全部都寫在一起程式碼會變得很亂，
+            需要修改功能時很容易牽連其他步驟，而且這種程式碼基本上只有本人會想看。把所有function都列出來會讓我的整個架構有更深入的了解，
+            然後更好分次完成，如果不用function來做很容易隔幾天回來做時要看很久目前做到哪裡。
+
+        </p>
+        <h3>
+            3.建立資料結構：
+        </h3>
+        <p>
+            完成上述兩項後就可以有所依照的建立資料結構了。
+        </p>
+        <h3>4.照順序完成每個function細節：</h3>
+        <p>這步驟應該是花最多時間的，因為必須要先有想法才能實現出來，而很多時候一開始的想法都不夠完善
+            ，且需要有耐心慢慢debug，只能從經驗來提升寫function的能力，跟同學討論也是一個很好的方法。</p>
+        <p>以上是我完成這次project深刻體會到的事情，寫在這裡也當作一個紀錄，我覺得我學到蠻多課本上學不到的事
+            ，會推薦學弟妹來修這門課。</p>
+    </div>
+
+    <div id="appendix" class="content page">
+        <h2>附錄</h2>
+        <ul>
+            <li>程式原始碼合併檔</li>
+            <li>測試輸入檔</li>
+            <li>測試輸出檔</li>
+        </ul>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // 隱藏所有頁面
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // 顯示選中的頁面
+            document.getElementById(pageId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
+
+
+
+  
+
