@@ -1,3 +1,6 @@
+#$LAN=PYTHON$
+#M133040059 李旭智
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 from collections import deque
